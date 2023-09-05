@@ -1,0 +1,431 @@
+/* ------------------------- */
+/* Styles General */
+/* ------------------------- */
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.txt-orange {
+  font-weight: 300;
+  color: orange;
+}
+
+.txt-white {
+  font-weight: 700;
+  color: #fff;
+}
+
+.txt-black {
+  color: #000;
+}
+
+/* ------------------------------ */
+/* Class Fullpage */
+/* ------------------------------ */
+#fp-nav ul li a span {
+  background-color: orange;
+}
+
+#fp-nav ul li .fp-tooltip {
+  color: orange;
+}
+
+/* ------------------------------ */
+/* Navigation Menu */
+/* ------------------------------ */
+.nav {
+  position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  z-index: 70;
+  width: 100%;
+  margin: 0;
+  padding: 0.625rem 1.25rem;
+}
+
+.nav li, .nav a {
+  display: inline-block;
+  margin: 0.625rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1875rem;
+  color: #c2c2c2;
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+}
+
+.nav li.active {
+  border-bottom: 2px solid orange;
+}
+
+.menu li a {
+  -webkit-transition: .5s ease;
+  transition: .5s ease;
+  margin: 0;
+  padding: 0;
+}
+
+.menu li.active a {
+  color: orange;
+}
+
+.menu li:hover a {
+  color: orange;
+}
+
+/* ------------------------------ */
+/* Header */
+/* ------------------------------ */
+.header {
+  background: url("../img/bg-imagen.jpeg");
+  background-position: center;
+  /*     .bg-video{
+        position: absolute;
+        z-index: 10;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 100%;
+        background: #000;
+        background-position: center;
+        background-size: contain;
+        object-fit: cover;
+    } */
+}
+
+.header .container-title {
+  text-align: center;
+  position: relative;
+  z-index: 99;
+}
+
+.header .container-title .title {
+  font-size: 4.375rem;
+  text-transform: uppercase;
+}
+
+.header .container-icon {
+  position: absolute;
+  z-index: 99;
+  bottom: 3%;
+  left: 50%;
+  font-size: 2.5rem;
+  -webkit-animation: down-up 1s ease infinite;
+          animation: down-up 1s ease infinite;
+}
+
+/* ------------------------------ */
+/* Animation */
+/* ------------------------------ */
+@-webkit-keyframes down-up {
+  0% {
+    -webkit-transform: translateY(1.25rem);
+            transform: translateY(1.25rem);
+  }
+  25% {
+    -webkit-transform: translateY(0rem);
+            transform: translateY(0rem);
+  }
+  100% {
+    -webkit-transform: translateY(1.25rem);
+            transform: translateY(1.25rem);
+  }
+}
+@keyframes down-up {
+  0% {
+    -webkit-transform: translateY(1.25rem);
+            transform: translateY(1.25rem);
+  }
+  25% {
+    -webkit-transform: translateY(0rem);
+            transform: translateY(0rem);
+  }
+  100% {
+    -webkit-transform: translateY(1.25rem);
+            transform: translateY(1.25rem);
+  }
+}
+
+/* ------------------------------ */
+/* Section Products */
+/* ------------------------------ */
+.products article {
+  background-position: center;
+  background-size: cover;
+}
+
+.products article:nth-child(1) {
+  background-image: url("../img/header/producto-01.jpg");
+}
+
+.products article:nth-child(2) {
+  background-image: url("../img/header/producto-02.jpg");
+}
+
+.products article:nth-child(3) {
+  background-image: url("../img/header/producto-03.jpg");
+}
+
+.products .info-products {
+  margin: 0 1.875rem;
+}
+
+.products .info-products::before {
+  content: "";
+  height: 3.125rem;
+  width: 0.125rem;
+  display: inline-block;
+  background: orange;
+  position: absolute;
+  top: 50%;
+  margin: -0.625rem;
+}
+
+.products .model {
+  font-size: 2.8125rem;
+}
+
+.products .description {
+  font-size: 1.26rem;
+}
+
+.products .price {
+  font-size: 1.56rem;
+}
+
+.products .price::before {
+  content: "$";
+  display: inline-block;
+}
+
+/* ------------------------------ */
+/* Class Fullpage => sliders arrow*/
+/* ------------------------------ */
+.fp-controlArrow.fp-next, .fp-controlArrow.fp-prev {
+  top: 95%;
+}
+
+.fp-controlArrow.fp-prev {
+  border-width: 1.25rem 1.25rem 1.25rem 0rem;
+  border-color: transparent #ffa500 transparent transparent;
+}
+
+.fp-controlArrow.fp-next {
+  border-width: 1.25rem 0rem 1.25rem 1.25rem;
+  border-color: transparent transparent transparent #ffa500;
+}
+
+/* ------------------------------ */
+/* Footer */
+/* ------------------------------ */
+.footer .txt-orange {
+  text-transform: uppercase;
+  font-size: 60px;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+}
+
+.footer h2 {
+  opacity: 0;
+  font-family: 'Oswald', sans-serif;
+  -webkit-transition: 1.5s ease all;
+  transition: 1.5s ease all;
+}
+
+.footer .social-network {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0;
+  font-size: 50px;
+}
+
+.footer .social-network a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100px;
+  height: 100px;
+  background: #fff;
+  color: #30313A;
+  text-decoration: none;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 100px;
+  margin: 0 20px;
+}
+
+.footer .fb:hover {
+  background: #3b5998;
+}
+
+.footer .fb:hover i {
+  color: #fff;
+}
+
+.footer .fb i {
+  color: #3b5998;
+}
+
+.footer .tw:hover {
+  background: #1da1f2;
+}
+
+.footer .tw:hover i {
+  color: #fff;
+}
+
+.footer .tw i {
+  color: #1da1f2;
+}
+
+.footer .ig:hover {
+  background: #C13584;
+}
+
+.footer .ig:hover i {
+  color: #fff;
+}
+
+.footer .ig i {
+  color: #C13584;
+}
+
+/* ------------------------------ */
+/* Media Queries */
+/* ------------------------------ */
+@media screen and (max-width: 768px) {
+  .menu li a,
+  .menu li.active a {
+    font-size: 18px;
+  }
+  .model {
+    font-size: 40px;
+  }
+  .price {
+    font-size: 23px;
+  }
+  .footer h2 {
+    font-size: 15px;
+  }
+  .footer .social-network {
+    font-size: 30px;
+  }
+  .footer .social-network a {
+    width: 70px;
+    height: 70px;
+  }
+  .footer .txt-orange {
+    font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .header .title {
+    font-size: 60px;
+  }
+  .info-products {
+    position: absolute;
+    top: 70%;
+  }
+  /*     .fp-controlArrow.fp-next {
+        left: 100px;
+    }
+
+    .fp-controlArrow.fp-prev {
+        left: 25px;
+    } */
+}
+
+@media screen and (max-width: 375px) {
+  .nav {
+    display: block;
+    text-align: center;
+  }
+  .nav a {
+    font-size: 16px;
+    margin-bottom: 0;
+  }
+  .menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .menu li a,
+  .menu li.active a {
+    font-size: 15px;
+    padding: 5px;
+  }
+  .title {
+    font-size: 45px;
+  }
+  .products .model {
+    font-size: 30px;
+  }
+  .footer .txt-orange {
+    font-size: 18px;
+  }
+  .footer .social-network a {
+    width: 50px;
+    height: 50px;
+  }
+  .footer .social-network a i {
+    font-size: 24px;
+  }
+}
+/*# sourceMappingURL=styles.css.map */
+
+/* ------------------------------ */
+/* Mis estilos personalizados */
+/* ------------------------------ */
+
+.txt-h2{
+  text-transform: uppercase;
+  font-size: 30px;
+  font-family: 'Oswald', sans-serif;
+  color: #ffa500;
+  margin:0;
+  padding:40px 0 40px 0;
+}
+
+.card-title-h3{
+  font-family: 'Oswald', sans-serif;
+  text-align: left;
+}
+
+.txt-parrafo{
+  font-family: IBM Plex Serif,serif;
+  font-size: 22px;
+}
