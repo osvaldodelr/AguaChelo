@@ -98,7 +98,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Header */
 /* ------------------------------ */
 .header {
-  background: url("../img/bg-imagen.jpeg");
+  /* background: url("../img/bg-imagen.jpeg"); */
   background-position: center;
   /*     .bg-video{
         position: absolute;
@@ -211,14 +211,14 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 1.26rem;
 }
 
-.products .price {
+/* .products .price {
   font-size: 1.56rem;
-}
+} */
 
-.products .price::before {
+/* .products .price::before {
   content: "$";
   display: inline-block;
-}
+} */
 
 /* ------------------------------ */
 /* Class Fullpage => sliders arrow*/
@@ -297,7 +297,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer .tw:hover {
-  background: #1da1f2;
+  background: #5fad00;
 }
 
 .footer .tw:hover i {
@@ -305,7 +305,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .footer .tw i {
-  color: #1da1f2;
+  color: #5fad00;
 }
 
 .footer .ig:hover {
@@ -328,12 +328,12 @@ h1, h2, h3, h4, h5, h6 {
   .menu li.active a {
     font-size: 18px;
   }
-  .model {
+  /* .model {
     font-size: 40px;
-  }
-  .price {
+  } */
+  /* .price {
     font-size: 23px;
-  }
+  } */
   .footer h2 {
     font-size: 15px;
   }
@@ -391,9 +391,9 @@ h1, h2, h3, h4, h5, h6 {
   .title {
     font-size: 45px;
   }
-  .products .model {
+  /* .products .model {
     font-size: 30px;
-  }
+  } */
   .footer .txt-orange {
     font-size: 18px;
   }
@@ -428,4 +428,36 @@ h1, h2, h3, h4, h5, h6 {
 .txt-parrafo{
   font-family: IBM Plex Serif,serif;
   font-size: 22px;
+}
+
+.txt-blue{
+  font-weight: 999;
+  color: #1378d7;
+}
+
+.txt-grey{
+  font-weight: 999;
+  color: #666666;
+}
+
+.txt-number{
+  font-weight: 999;
+  color: #666666;
+  font-size: 52px;
+  -webkit-text-stroke: 0.5px #fff;
+}
+
+.txt-descripcion{
+  font-weight: 999;
+  color: #666666;
+  font-size: 18.8px;
+}
+
+.tarjeta{
+  margin: 0;
+  padding: 0;
+  width: 380px;
+  height: 145px;
+  background-color: #fff;
+  opacity: 65%;
 }
