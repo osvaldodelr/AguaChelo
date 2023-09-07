@@ -433,24 +433,31 @@ h1, h2, h3, h4, h5, h6 {
 .txt-blue{
   font-weight: 999;
   color: #1378d7;
+  font-family: 'Oswald', sans-serif;
 }
 
 .txt-grey{
   font-weight: 999;
   color: #666666;
+  font-family: 'Oswald', sans-serif;
 }
 
 .txt-number{
   font-weight: 999;
   color: #666666;
-  font-size: 52px;
-  -webkit-text-stroke: 0.5px #fff;
+  font-size: 35px;
+  -webkit-text-stroke: 0.5px #000;
+  
+}
+article .txt-number:hover{
+  color: #5fad00;
 }
 
 .txt-descripcion{
   font-weight: 999;
   color: #666666;
-  font-size: 18.8px;
+  font-size: 18px;
+  font-family: 'Oswald', sans-serif;
 }
 
 .tarjeta{
@@ -466,3 +473,4 @@ h1, h2, h3, h4, h5, h6 {
   height: 288px;
   width: 100%;
 }
+

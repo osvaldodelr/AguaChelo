@@ -38,3 +38,16 @@ const sectionPage = new fullpage('#fullpage', {
         }
    }
 });
+
+
+// Obtén una referencia al botón
+var boton = document.getElementById("miBoton");
+
+// Agrega un evento onclick al botón
+boton.onclick = function() {
+		// Define la URL que quieres abrir
+		var url = "https://wa.me/18298760816";
+
+		// Abre la URL en una nueva ventana o pestaña del navegador
+		window.open(url);
+};
