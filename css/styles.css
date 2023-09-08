@@ -308,6 +308,18 @@ h1, h2, h3, h4, h5, h6 {
   color: #5fad00;
 }
 
+.footer .tp:hover {
+  background: #0060c0;
+}
+
+.footer .tp:hover i {
+  color: #fff;
+}
+
+.footer .tp i {
+  color: #0060c0;
+}
+
 .footer .ig:hover {
   background: #C13584;
 }
