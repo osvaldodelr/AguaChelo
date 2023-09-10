@@ -443,12 +443,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .txt-blue{
+  text-transform: uppercase;
   font-weight: 999;
   color: #1378d7;
   font-family: 'Oswald', sans-serif;
 }
 
 .txt-grey{
+  text-transform: uppercase;
   font-weight: 999;
   color: #666666;
   font-family: 'Oswald', sans-serif;
@@ -458,24 +460,24 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 999;
   color: #666666;
   font-size: 32px;
-  -webkit-text-stroke: 0.5px #000;
+  -webkit-text-stroke: 0.5px #666666;
   
 }
 article .txt-number:hover{
-  color: #5fad00;
+  color: #25d366;
 }
 
 .txt-descripcion{
   font-weight: 999;
   color: #666666;
-  font-size: 18px;
+  font-size: 21px;
   font-family: 'Oswald', sans-serif;
 }
 
 .tarjeta{
   margin: 0;
   padding: 0;
-  width: 380px;
+  width: 385;
   height: 145px;
   background-color: #fff;
   opacity: 65%;
@@ -484,4 +486,18 @@ article .txt-number:hover{
 .postContainer{
   height: 288px;
   width: 100%;
+}
+
+#bcolor{
+    background-image: linear-gradient(128deg,#40afff,#3f61ff);
+}
+
+.txt-h5{
+  font-size: 25px;
+  font-weight: 400;
+  color: orange;
+}
+
+.fa-phone2{
+  font-size: 22px;
 }
