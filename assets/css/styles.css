@@ -1,0 +1,77 @@
+
+
+/* =======================
+    SOCIAL NETWORK LINKS 
+==========================*/
+.footer .whatsapp {
+  background: #fff;
+}
+.footer .whatsapp:hover {
+  background: #5fad00;
+}
+.footer .whatsapp:hover i {
+  color: #fff;
+}
+.footer .whatsapp i {
+  color: #5fad00;
+}
+
+
+.footer .facebook {
+  background: #fff;
+}
+.footer .facebook:hover {
+  background: #3b5998;
+}
+.footer .facebook:hover i {
+  color: #fff;
+}
+.footer .facebook i {
+  color: #3b5998;
+}
+
+
+.footer .instagram {
+  background: #fff;
+}
+.footer .instagram:hover {
+  background: #C13584;
+}
+.footer .instagram:hover i {
+  color: #fff;
+}
+.footer .instagram i {
+  color: #C13584;
+}
+
+
+.footer .telephone-fill {
+  background: #fff;
+}
+.footer .telephone-fill:hover {
+  background: #0060c0;
+}
+.footer .telephone-fill:hover i {
+  color: #fff;
+}
+.footer .telephone-fill i {
+  color: #0060c0;
+}
+
+
+
+.nolink {
+  color: inherit;
+  text-decoration: none;
+}
+.space {
+  margin-right: 5px;
+}
+
+.bi-whatsapp {
+  font-size: 64px;
+}
+
+#get-a-quote {
+  background-color: #5fad00;
+}
