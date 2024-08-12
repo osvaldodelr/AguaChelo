@@ -1,6 +1,6 @@
 # Agua Chelo - Página Web
 
-Bienvenido al repositorio de la página web de Agua Chelo, una empresa dedicada a proporcionar servicios de agua potable de alta calidad para hogares y empresas. En este repositorio encontrarás toda la información necesaria para instalar, configurar y contribuir al desarrollo de nuestra página web.
+Bienvenido al repositorio de la página web de Agua Chelo, una empresa dedicada a proporcionar servicios y transporte de agua de alta calidad para hogares y empresas en todo Santo Domingo. En este repositorio encontrarás toda la información necesaria de nuestra página web.
 
 ## Tabla de Contenidos
 
