@@ -18024,140 +18024,109 @@ section {
   <!-- SCRIPT PROPIOS -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-  // Obtener el formulario y el botón
-  var form = document.getElementById("data-form");
-  var submitButton = document.getElementById("submit-button");
+      // Obtener el formulario y el botón
+      var form = document.getElementById("data-form");
+      var submitButton = document.getElementById("submit-button");
 
-  // Función para transformar el formato de la fecha
-  function formatDate(dateString) {
-    // Divide la fecha en componentes
-    var parts = dateString.split("-"); // Supone que el formato es YYYY-MM-DD
-    var year = parts[0];
-    var month = parts[1];
-    var day = parts[2];
+      // Función para transformar el formato de la fecha
+      function formatDate(dateString) {
+        var parts = dateString.split("-");
+        var year = parts[0];
+        var month = parts[1];
+        var day = parts[2];
+        return `${day}/${month}/${year}`;
+      }
 
-    // Regresa la fecha en el formato DD/MM/YYYY
-    return `${day}/${month}/${year}`;
-  }
+      // Función para normalizar número de teléfono
+      function normalizePhoneNumber(phoneNumber) {
+        const cleaned = phoneNumber.replace(/\D/g, '');
+        const match = cleaned.match(/^1?(\d{3})(\d{3})(\d{4})$/);
+        if (match) {
+          return `(${match[1]}) ${match[2]}-${match[3]}`;
+        } else {
+          return 'Número inválido';
+        }
+      }
 
-  // Función para actualizar el contenido de los elementos con los datos del formulario
-  function updateDisplay() {
-    var FacturaCotizacion = document.getElementById("factura-cotizacion").value;
-    var NumeroFactura = document.getElementById("numero-factura").value;
-    var FechaFactura = document.getElementById("fecha-factura").value;
-    var NombreCliente = document.getElementById("nombre-cliente").value;
-    var DireccionCliente = document.getElementById("direccion-cliente").value;
-    var TelefonoCliente = document.getElementById("telefono-cliente").value;
-    var Cantidad = parseFloat(document.getElementById("cantidad").value);
-    var DescripcionServicio = document.getElementById("descripcion-servicio")
-      .value;
-    var Precio = parseFloat(document.getElementById("precio").value);
+      // Función para actualizar el contenido de los elementos con los datos del formulario
+      function updateDisplay() {
+        var FacturaCotizacion = document.getElementById("factura-cotizacion").value;
+        var NumeroFactura = document.getElementById("numero-factura").value;
+        var FechaFactura = document.getElementById("fecha-factura").value;
+        var NombreCliente = document.getElementById("nombre-cliente").value;
+        var DireccionCliente = document.getElementById("direccion-cliente").value;
+        var TelefonoCliente = document.getElementById("telefono-cliente").value;
+        var Cantidad = parseFloat(document.getElementById("cantidad").value);
+        var DescripcionServicio = document.getElementById("descripcion-servicio").value;
+        var Precio = parseFloat(document.getElementById("precio").value);
 
-    // Formatear la fecha
-    var formattedDate = formatDate(FechaFactura);
-    // Multiplicar cantidad x precio
-    var SubTotal = Precio * Cantidad;
+        // Formatear la fecha y el teléfono
+        var formattedDate = formatDate(FechaFactura);
+        var formattedPhone = normalizePhoneNumber(TelefonoCliente);
 
-    // Actualizar los elementos con id específicos
-    document.getElementById(
-      "factura-cotizacion-display"
-    ).innerText = FacturaCotizacion;
-    document.getElementById("numero-factura-display").innerText = NumeroFactura;
-    document.getElementById("fecha-factura-display").innerText = formattedDate;
-    document.getElementById(
-      "nombre-cliente-display"
-    ).innerText = NombreCliente.toUpperCase();
-    document.getElementById(
-      "direccion-cliente-display"
-    ).innerText = DireccionCliente;
-    document.getElementById(
-      "telefono-cliente-display"
-    ).innerText = TelefonoCliente;
-    document.getElementById(
-      "cantidad-display"
-    ).innerText = Cantidad.toLocaleString("en-US");
-    document.getElementById(
-      "descripcion-servicio-display"
-    ).innerText = DescripcionServicio;
-    document.getElementById("precio-display").innerText = Precio.toLocaleString(
-      "en-US"
-    );
-    document.getElementById(
-      "sub-total-display"
-    ).innerText = SubTotal.toLocaleString("en-US");
-    document.getElementById(
-      "total-final"
-    ).innerText = SubTotal.toLocaleString("en-US");
-  }
+        // Multiplicar cantidad x precio
+        var SubTotal = Precio * Cantidad;
 
-  // Añadir un evento al botón para actualizar los datos cuando se hace clic
-  submitButton.addEventListener("click", updateDisplay);
-});
+        // Actualizar los elementos con id específicos
+        document.getElementById("factura-cotizacion-display").innerText = FacturaCotizacion;
+        document.getElementById("numero-factura-display").innerText = NumeroFactura;
+        document.getElementById("fecha-factura-display").innerText = formattedDate;
+        document.getElementById("nombre-cliente-display").innerText = NombreCliente.toUpperCase();
+        document.getElementById("direccion-cliente-display").innerText = DireccionCliente;
+        document.getElementById("telefono-cliente-display").innerText = formattedPhone; // Número formateado
+        document.getElementById("cantidad-display").innerText = Cantidad.toLocaleString("en-US");
+        document.getElementById("descripcion-servicio-display").innerText = DescripcionServicio;
+        document.getElementById("precio-display").innerText = Precio.toLocaleString("en-US");
+        document.getElementById("sub-total-display").innerText = SubTotal.toLocaleString("en-US");
+        document.getElementById("total-final").innerText = SubTotal.toLocaleString("en-US");
+      }
 
-// AGREGAR NUEVA FILA DE DATOS:
-document.addEventListener("DOMContentLoaded", function () {
-  // Función para actualizar el total final
-  function updateTotalFinal() {
-    var totalFinal = 0;
-
-    // Obtener todas las filas de la factura
-    var filas = document.querySelectorAll(".container-section3 .fila");
-
-    // Sumar los subtotales de todas las filas
-    filas.forEach(function (fila) {
-      var subtotalElement = fila.querySelector("h5:last-child"); // Última columna es el subtotal
-      var subtotal =
-        parseFloat(subtotalElement.textContent.replace(/[^0-9.-]+/g, "")) || 0;
-      totalFinal += subtotal;
+      // Añadir un evento al botón para actualizar los datos cuando se hace clic
+      submitButton.addEventListener("click", updateDisplay);
     });
 
-    // Actualizar el valor total en la factura
-    document.getElementById(
-      "total-final"
-    ).innerText = totalFinal.toLocaleString("en-US");
-  }
+    // AGREGAR NUEVA FILA DE DATOS:
+    document.addEventListener("DOMContentLoaded", function () {
+      // Función para actualizar el total final
+      function updateTotalFinal() {
+        var totalFinal = 0;
+        var filas = document.querySelectorAll(".container-section3 .fila");
+        filas.forEach(function (fila) {
+          var subtotalElement = fila.querySelector("h5:last-child");
+          var subtotal = parseFloat(subtotalElement.textContent.replace(/[^0-9.-]+/g, "")) || 0;
+          totalFinal += subtotal;
+        });
+        document.getElementById("total-final").innerText = totalFinal.toLocaleString("en-US");
+      }
 
-  // Función para agregar una nueva fila
-  function addRow() {
-    var Cantidad = parseFloat(document.getElementById("cantidad-row").value);
-    var DescripcionServicio = document.getElementById(
-      "descripcion-servicio-row"
-    ).value;
-    var Precio = parseFloat(document.getElementById("precio-row").value);
+      // Función para agregar una nueva fila
+      function addRow() {
+        var Cantidad = parseFloat(document.getElementById("cantidad-row").value);
+        var DescripcionServicio = document.getElementById("descripcion-servicio-row").value;
+        var Precio = parseFloat(document.getElementById("precio-row").value);
+        var SubTotal = Precio * Cantidad;
 
-    // Multiplicar cantidad x precio
-    var SubTotal = Precio * Cantidad;
+        var newRow = document.createElement("div");
+        newRow.className = "fila";
+        newRow.innerHTML = `
+          <h5>${Cantidad.toLocaleString("en-US")}</h5>
+          <h5>${DescripcionServicio}</h5>
+          <h5>RD$ ${Precio.toLocaleString("en-US")}</h5>
+          <h5>RD$ ${SubTotal.toLocaleString("en-US")}</h5>
+        `;
+        document.querySelector(".container-section3").appendChild(newRow);
+        updateTotalFinal();
+      }
 
-    // Crear un nuevo elemento de fila
-    var newRow = document.createElement("div");
-    newRow.className = "fila";
-    newRow.innerHTML = `
-      <h5>${Cantidad.toLocaleString("en-US")}</h5>
-      <h5>${DescripcionServicio}</h5>
-      <h5>RD$ ${Precio.toLocaleString("en-US")}</h5>
-      <h5>RD$ ${SubTotal.toLocaleString("en-US")}</h5>
-    `;
+      var addRowButton = document.getElementById("add-row-submit");
+      addRowButton.addEventListener("click", addRow);
+      updateTotalFinal();
+    });
 
-    // Añadir la nueva fila al contenedor
-    document.querySelector(".container-section3").appendChild(newRow);
-
-    // Actualizar el total final con la nueva fila añadida
-    updateTotalFinal();
-  }
-
-  // Obtener el botón para agregar una fila
-  var addRowButton = document.getElementById("add-row-submit");
-
-  // Añadir un evento al botón para agregar una fila cuando se hace clic
-  addRowButton.addEventListener("click", addRow);
-
-  // También actualizamos el total inicial con las filas ya existentes al cargar la página
-  updateTotalFinal();
-});
-      // SCRIPT PARA BOTON PRINT
-      document.getElementById('print').addEventListener('click', () => {
-        window.print();
-      });
+    // SCRIPT PARA BOTON PRINT
+    document.getElementById('print').addEventListener('click', () => {
+      window.print();
+    });
   </script>
 
 </body>
