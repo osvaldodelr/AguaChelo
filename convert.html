@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor a JSON y CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .button-group {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button.clear {
+            background-color: #f44336;
+        }
+        button.clear:hover {
+            background-color: #d32f2f;
+        }
+        button.download {
+            background-color: #2196F3;
+        }
+        button.download:hover {
+            background-color: #0b7dda;
+        }
+        h2, h3 {
+            color: #333;
+        }
+        .alert {
+            color: #721c24;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .success {
+            color: #155724;
+            background-color: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        #fileInput {
+            margin-bottom: 10px;
+        }
+        .results-section {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Conversor de Texto a JSON y CSV</h2>
+    
+    <div>
+        <input type="file" id="fileInput" accept=".txt">
+    </div>
+    
+    <textarea id="inputText" placeholder="Pega el texto aquí o carga un archivo..."></textarea>
+    
+    <div class="button-group">
+        <button onclick="convertData()">Convertir</button>
+        <button class="clear" onclick="clearText()">Borrar</button>
+        <button class="download" onclick="downloadJSON()">Descargar JSON</button>
+        <button class="download" onclick="downloadCSV()">Descargar CSV</button>
+    </div>
+    
+    <div class="results-section">
+        <h3>Resultado:</h3>
+        <pre id="totals"></pre>
+        
+        <h3>Alertas:</h3>
+        <pre id="alerts"></pre>
+        
+        <h3>Vista previa JSON:</h3>
+        <pre id="result"></pre>
+    </div>
+    
+    <script>
+        // Variables globales para almacenar los datos procesados
+        let processedData = [];
+        let alertsList = [];
+        
+        // Manejar carga de archivos
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('inputText').value = e.target.result;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Limpiar todos los campos
+        function clearText() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('result').textContent = '';
+            document.getElementById('alerts').textContent = '';
+            document.getElementById('totals').textContent = '';
+            processedData = [];
+            alertsList = [];
+        }
+
+        // Función para quitar acentos
+        function quitarAcentos(string) {
+            const acentos = {
+                'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u',
+                'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U',
+                'ñ': 'n', 'Ñ': 'N'
+            };
+            
+            return string.replace(/[áéíóúÁÉÍÓÚñÑ]/g, match => acentos[match] || match);
+        }
+
+        // Convertir datos
+        function convertData() {
+            const inputText = document.getElementById('inputText').value;
+            
+            // Si no hay texto, mostrar error
+            if (!inputText.trim()) {
+                alert('Por favor, ingresa algún texto para convertir.');
+                return;
+            }
+            
+            const lines = inputText.split('\n');
+            let viajes = [];
+            let current_viaje = {};
+            let mes_base = null;
+            let numero_viajes = 0;
+            
+            lines.forEach(line => {
+                // Filtrar la línea de la fecha y hora del mensaje
+                if (line.trim().startsWith('[') && line.includes(']')) {
+                    // Extraer solo la parte después del timestamp si contiene información de viaje
+                    if (line.includes('Viaje:')) {
+                        const viajeInfo = line.substring(line.indexOf(']') + 1).trim();
+                        if (viajeInfo.includes('Viaje:')) {
+                            // Si ya hay un viaje almacenado, agregarlo a la lista
+                            if (Object.keys(current_viaje).length > 0) {
+                                viajes.push(current_viaje);
+                                current_viaje = {};
+                            }
+                            
+                            // Extraer el número de viaje
+                            const matches = viajeInfo.match(/Viaje:\s*(\d+)/);
+                            if (matches && matches[1]) {
+                                numero_viajes += parseInt(matches[1], 10);
+                                current_viaje['Viaje'] = parseInt(matches[1], 10);
+                            }
+                        }
+                    }
+                } else if (line.trim() !== '' && line.trim() !== '====================' && !line.includes('==============================')) {
+                    // Procesar líneas normales para extraer clave y valor
+                    const parts = line.split(':', 2);
+                    if (parts.length == 2) {
+                        const key = quitarAcentos(parts[0].trim());
+                        const value = parts[1].trim();
+                        current_viaje[key] = value;
+                    }
+                }
+            });
+            
+            // Agregar el último viaje si existe
+            if (Object.keys(current_viaje).length > 0) {
+                viajes.push(current_viaje);
+            }
+            
+            // Verificar fechas y generar alertas
+            alertsList = [];
+            viajes.forEach(viaje => {
+                if (viaje.Fecha) {
+                    const fechaParts = viaje.Fecha.split('/');
+                    if (fechaParts.length === 3) {
+                        // Formato original: DD/MM/YYYY
+                        const dia = fechaParts[0].padStart(2, '0');
+                        const mes = fechaParts[1].padStart(2, '0');
+                        const anio = fechaParts[2];
+                        
+                        // Convertir a formato estándar YYYY-MM-DD
+                        viaje.Fecha = `${anio}-${mes}-${dia} 00:00:00`;
+                        
+                        // Establecer mes base con el primer viaje
+                        if (mes_base === null) {
+                            mes_base = mes;
+                        }
+                        
+                        // Generar alerta si el mes no corresponde
+                        if (mes !== mes_base) {
+                            alertsList.push({
+                                Nombre: viaje.Nombre || 'Desconocido',
+                                Telefono: viaje.Telefono || 'N/A',
+                                Fecha: viaje.Fecha
+                            });
+                        }
+                    }
+                }
+            });
+            
+            // Guardar datos procesados en variable global
+            processedData = viajes;
+            
+            // Actualizar la interfaz con los resultados
+            document.getElementById('result').textContent = JSON.stringify(processedData, null, 2);
+            
+            // Mostrar totales
+            const totalInfo = [
+                `Cantidad de objetos registrados: ${processedData.length}`,
+                `Cantidad de viajes: ${numero_viajes}`
+            ].join('\n');
+            
+            document.getElementById('totals').textContent = totalInfo;
+            
+            // Mostrar alertas
+            if (alertsList.length > 0) {
+                const alertsText = [
+                    'Alertas de viajes con fechas fuera de tiempo:',
+                    ...alertsList.map(alerta => `Nombre: ${alerta.Nombre}, Teléfono: ${alerta.Telefono}, Fecha: ${alerta.Fecha}`)
+                ].join('\n');
+                document.getElementById('alerts').textContent = alertsText;
+                document.getElementById('alerts').className = 'alert';
+            } else {
+                document.getElementById('alerts').textContent = 'No hay viajes fuera de tiempo.';
+                document.getElementById('alerts').className = 'success';
+            }
+        }
+        
+        // Descargar el JSON como archivo
+        function downloadJSON() {
+            if (processedData.length === 0) {
+                alert('Primero debes convertir los datos.');
+                return;
+            }
+            
+            const fecha_guardado = new Date().toISOString().replace(/[T:\.Z]/g, '-').slice(0, 19);
+            const nombre_archivo = `Viajes_${fecha_guardado}.json`;
+            
+            const jsonData = JSON.stringify(processedData, null, 2);
+            const blob = new Blob([jsonData], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nombre_archivo;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Convertir array a CSV y descargar
+        function downloadCSV() {
+            if (processedData.length === 0) {
+                alert('Primero debes convertir los datos.');
+                return;
+            }
+            
+            // Extraer todos los posibles encabezados
+            const encabezados = new Set();
+            processedData.forEach(viaje => {
+                Object.keys(viaje).forEach(key => encabezados.add(key));
+            });
+            const headerArray = Array.from(encabezados);
+            
+            // Crear contenido CSV
+            let csvContent = '\uFEFF'; // BOM para UTF-8
+            
+            // Agregar encabezados
+            csvContent += headerArray.join(',') + '\n';
+            
+            // Agregar filas de datos
+            processedData.forEach(viaje => {
+                const row = headerArray.map(header => {
+                    // Escapar comillas y formatear según reglas CSV
+                    const value = viaje[header] !== undefined ? viaje[header] : '';
+                    return typeof value === 'string' && value.includes(',') ? 
+                        `"${value.replace(/"/g, '""')}"` : value;
+                });
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Crear y descargar archivo
+            const fecha_guardado = new Date().toISOString().replace(/[T:\.Z]/g, '-').slice(0, 19);
+            const nombre_archivo = `Viajes_${fecha_guardado}.csv`;
+            
+            const blob = new Blob([csvContent], {type: 'text/csv;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = nombre_archivo;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
