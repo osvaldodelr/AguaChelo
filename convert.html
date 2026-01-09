@@ -162,34 +162,41 @@
             let numero_viajes = 0;
             
             lines.forEach(line => {
-                // Filtrar la línea de la fecha y hora del mensaje
-                if (line.trim().startsWith('[') && line.includes(']')) {
-                    // Extraer solo la parte después del timestamp si contiene información de viaje
-                    if (line.includes('Viaje:')) {
-                        const viajeInfo = line.substring(line.indexOf(']') + 1).trim();
-                        if (viajeInfo.includes('Viaje:')) {
-                            // Si ya hay un viaje almacenado, agregarlo a la lista
-                            if (Object.keys(current_viaje).length > 0) {
-                                viajes.push(current_viaje);
-                                current_viaje = {};
-                            }
-                            
-                            // Extraer el número de viaje
-                            const matches = viajeInfo.match(/Viaje:\s*(\d+)/);
-                            if (matches && matches[1]) {
-                                numero_viajes += parseInt(matches[1], 10);
-                                current_viaje['Viaje'] = parseInt(matches[1], 10);
-                            }
-                        }
+                const raw = line.trim();
+
+                // Ignorar líneas vacías o separadores
+                if (!raw || raw === '====================' || raw.includes('==============================')) {
+                    return;
+                }
+
+                // Si la línea empieza con un timestamp [..], quitar la parte del timestamp
+                let content = raw;
+                if (content.startsWith('[') && content.includes(']')) {
+                    content = content.substring(content.indexOf(']') + 1).trim();
+                    if (!content) return;
+                }
+
+                // Detectar marcador de inicio de viaje (con o sin timestamp)
+                const viajeMatch = content.match(/^Viaje:\s*(\d+)/i);
+                if (viajeMatch) {
+                    // Si ya existe un viaje en construcción, guardarlo antes de empezar uno nuevo
+                    if (Object.keys(current_viaje).length > 0) {
+                        viajes.push(current_viaje);
+                        current_viaje = {};
                     }
-                } else if (line.trim() !== '' && line.trim() !== '====================' && !line.includes('==============================')) {
-                    // Procesar líneas normales para extraer clave y valor
-                    const parts = line.split(':', 2);
-                    if (parts.length == 2) {
-                        const key = quitarAcentos(parts[0].trim());
-                        const value = parts[1].trim();
-                        current_viaje[key] = value;
-                    }
+
+                    const num = parseInt(viajeMatch[1], 10);
+                    numero_viajes += num;
+                    current_viaje['Viaje'] = num;
+                    return;
+                }
+
+                // Procesar líneas clave:valor normales
+                const parts = content.split(':', 2);
+                if (parts.length == 2) {
+                    const key = quitarAcentos(parts[0].trim());
+                    const value = parts[1].trim();
+                    current_viaje[key] = value;
                 }
             });
             
